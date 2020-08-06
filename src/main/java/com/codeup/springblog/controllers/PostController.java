@@ -13,9 +13,11 @@ import java.util.List;
 public class PostController {
 
     private final PostRepository postsDao;
+    private final UserRepository usersDao;
 
-    public PostController(PostRepository postsDao) {
+    public PostController(PostRepository postsDao, UserRepoitory userDao) {
         this.postsDao = postsDao;
+        this.usersDao = usersDao;
     }
 
     @GetMapping("/posts")
@@ -32,15 +34,17 @@ public class PostController {
     }
 
     @GetMapping("/posts/create")
-    @ResponseBody
     public String create(){
-        return "Here is the form to create a post!";
+        return "/posts/create";
     }
 
     @PostMapping("/posts/create")
     @ResponseBody
-    public String insert(){
-        return "Post has been created!";
+    public String insert(@RequestParam String title, @RequestParam String body){
+        User user = userDao.getOne(1L);
+        Post post = new Post(title, body, user);
+        postsDao.save(post);
+        return "redirect:/posts";
     }
 
     @GetMapping("/posts/{id}/edit")

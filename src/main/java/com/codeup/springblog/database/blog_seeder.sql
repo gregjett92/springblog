@@ -1,4 +1,4 @@
-use ganymede_spring_db;
+use spring_blog_db;
 
 insert into posts (title, body) values
 ('Title 1', 'Body 1 asdf asdf asd fasdf as dfa sdfa sdf'),
