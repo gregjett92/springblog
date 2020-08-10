@@ -16,12 +16,22 @@ public class Post {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String body;
 
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private User author;
+//  EMPTY CONSTRUCTORS
     public Post(){}
-
+//  GETTERS AND SETTERS
     public Post(long id, String title, String body){
         this.id = id;
         this.title = title;
         this.body = body;
+    }
+
+    public Post(String title, String body, User author) {
+        this.title = title;
+        this.body = body;
+        this.author = author;
     }
 
     public String getTitle(){
@@ -46,5 +56,13 @@ public class Post {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 }

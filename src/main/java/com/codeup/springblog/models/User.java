@@ -1,6 +1,9 @@
 package com.codeup.springblog.models;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -10,16 +13,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "username")
+    @Column(length = 20, nullable = false, unique = true)
     private String username;
 
-    @Column(name = "email")
+    @Column(length = 100, nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password")
+    @Column(length = 50, nullable = false)
     private String password;
 
-    public User(){}
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+    private List<Post> posts;
+//  EMPTY CONSTRUCTORS
+    public User(){
+    }
 
     public User(long id, String username, String email, String password){
 
@@ -45,6 +52,10 @@ public class User {
         return password;
     }
 
+    public List<Post> getPosts() {
+        return posts;
+    }
+
 //    SETTERS
     public long setId(Long newId){
         return this.id = newId;
@@ -60,5 +71,9 @@ public class User {
 
     public void setPassword(String newPassword){
         this.password = newPassword;
+    }
+
+    public void setPost(List<Post>posts) {
+        this.posts = posts;
     }
 }
